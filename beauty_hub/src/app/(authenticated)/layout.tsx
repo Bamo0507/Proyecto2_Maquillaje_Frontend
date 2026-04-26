@@ -17,11 +17,13 @@ export default function AuthenticatedLayout({
   return (
     <SidebarProvider defaultOpen>
       <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-14 shrink-0 items-center border-b border-border px-4">
+      <SidebarInset className="min-w-0 overflow-x-hidden">
+        <header className="flex h-14 min-w-0 shrink-0 items-center border-b border-border px-4">
           <SidebarTrigger aria-label="Alternar barra lateral" />
         </header>
-        <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+        <main className="min-w-0 max-w-full flex-1 overflow-x-hidden px-4 py-6 sm:px-6 lg:px-8">
+          {children}
+        </main>
       </SidebarInset>
     </SidebarProvider>
   )

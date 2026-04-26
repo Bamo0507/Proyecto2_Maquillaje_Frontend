@@ -49,7 +49,7 @@
 }
 
 :root {
-  --background: #f7e7d8;
+  --background: #FBEFEF;
   --foreground: #2f252b;
   --card: #fff8f2;
   --card-foreground: #2f252b;
@@ -59,7 +59,7 @@
   --primary-foreground: #fff8f2;
   --secondary: #c9dae7;
   --secondary-foreground: #22313b;
-  --muted: #f4dbca;
+  --muted: #FFE6E6;
   --muted-foreground: #715f68;
   --accent: #b6b1d9;
   --accent-foreground: #282442;

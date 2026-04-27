@@ -109,6 +109,22 @@ export const apiClient = {
       onUnauthorized
     ),
 
+  patch: <T>(
+    endpoint: string,
+    body?: unknown,
+    options?: RequestInit,
+    onUnauthorized?: () => void
+  ): Promise<T> =>
+    fetchApi<T>(
+      endpoint,
+      {
+        ...options,
+        method: "PATCH",
+        body: body ? JSON.stringify(body) : undefined,
+      },
+      onUnauthorized
+    ),
+
   delete: <T>(
     endpoint: string,
     options?: RequestInit,

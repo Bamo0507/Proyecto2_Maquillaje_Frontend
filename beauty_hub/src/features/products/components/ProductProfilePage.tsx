@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { format, isValid, parseISO } from "date-fns"
 import {
   ArrowLeftIcon,
@@ -298,6 +299,7 @@ function LoadingSkeleton() {
 }
 
 export function ProductProfilePage({ productId }: ProductProfilePageProps) {
+  const router = useRouter()
   const username = useCurrentUsername()
   const numericProductId = Number(productId)
   const isValidProductId = Number.isInteger(numericProductId) && numericProductId > 0
@@ -382,8 +384,8 @@ export function ProductProfilePage({ productId }: ProductProfilePageProps) {
             No encontramos información para este producto.
           </AlertDescription>
         </Alert>
-        <Button variant="outline" asChild>
-          <Link href="/generalRecommendations">Volver a recomendaciones</Link>
+        <Button variant="outline" onClick={() => router.back()}>
+          Volver
         </Button>
       </div>
     )
@@ -396,11 +398,14 @@ export function ProductProfilePage({ productId }: ProductProfilePageProps) {
   return (
     <div className="space-y-6 px-2 py-2 md:px-4 xl:px-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Button variant="ghost" size="sm" asChild className="px-0 hover:bg-transparent">
-          <Link href="/generalRecommendations">
-            <ArrowLeftIcon aria-hidden="true" />
-            Volver a recomendaciones
-          </Link>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="px-0 hover:bg-transparent"
+          onClick={() => router.back()}
+        >
+          <ArrowLeftIcon aria-hidden="true" />
+          Volver
         </Button>
 
         <p className="text-sm text-muted-foreground">

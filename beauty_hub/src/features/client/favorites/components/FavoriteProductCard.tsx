@@ -43,6 +43,10 @@ function formatPrice(price: number) {
   return `$${price.toFixed(2)}`
 }
 
+function getFavoriteStatusLabel(isPurchased?: boolean | null) {
+  return isPurchased ? "Comprado" : "Pendiente de compra"
+}
+
 function ProductBadges({ favorite }: { favorite: UserFavorite }) {
   const { product } = favorite
 
@@ -167,7 +171,9 @@ export function FavoriteProductCard({
         <div className="flex flex-col gap-3 rounded-lg bg-muted/60 p-3 text-sm">
           <div className="flex items-center justify-between gap-3">
             <span className="text-muted-foreground">Estado</span>
-            <span className="font-medium">Guardado</span>
+            <span className="font-medium">
+              {getFavoriteStatusLabel(favorite.favorite.isPurchased)}
+            </span>
           </div>
           {favorite.favorite.notes ? (
             <p className="line-clamp-2 leading-5 text-muted-foreground">

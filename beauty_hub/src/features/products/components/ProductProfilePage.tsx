@@ -37,6 +37,7 @@ import type {
   SimilarProduct,
   TextListValue,
 } from "../types"
+import { ProductFavoriteButton } from "./ProductFavoriteButton"
 import { ProductReviewForm } from "./ProductReviewForm"
 
 interface ProductProfilePageProps {
@@ -304,7 +305,11 @@ export function ProductProfilePage({ productId }: ProductProfilePageProps) {
   const numericProductId = Number(productId)
   const isValidProductId = Number.isInteger(numericProductId) && numericProductId > 0
 
-  const productDetailQuery = useProductDetail(numericProductId, isValidProductId)
+  const productDetailQuery = useProductDetail(
+    numericProductId,
+    username,
+    isValidProductId
+  )
   const productReviewsQuery = useProductReviews(numericProductId, isValidProductId)
   const similarProductsQuery = useSimilarProducts(numericProductId, isValidProductId)
 
@@ -413,7 +418,7 @@ export function ProductProfilePage({ productId }: ProductProfilePageProps) {
         </p>
       </div>
 
-      <Card className="gap-0 overflow-hidden border-border/70 bg-card py-0 shadow-sm">
+      <Card className="relative gap-0 overflow-hidden border-border/70 bg-card py-0 shadow-sm">
         <CardHeader className="border-b border-border/60 bg-card px-4 py-5 md:px-6">
           <div className="flex max-w-5xl flex-col gap-4">
             <div className="flex flex-col gap-3">
@@ -478,6 +483,12 @@ export function ProductProfilePage({ productId }: ProductProfilePageProps) {
           <ProductStat label="Acabado" value={product.finish ?? "No disponible"} />
           <ProductStat label="Tono" value={product.shade ?? "No disponible"} />
         </CardContent>
+
+        <ProductFavoriteButton
+          productId={numericProductId}
+          username={username}
+          favorite={productDetailQuery.data?.favorite}
+        />
       </Card>
 
       <div>

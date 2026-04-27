@@ -1,15 +1,31 @@
 import { apiClient } from "@/lib/api/apiClient"
 
 import type {
+  AddUserFavoriteInput,
+  AddUserFavoriteResponse,
   CreateProductReviewInput,
   CreateProductReviewResponse,
+  DeleteUserFavoriteResponse,
   ProductDetailResponse,
   ProductReviewsResponse,
   SimilarProductsResponse,
 } from "./types"
 
-export function getProductById(productId: number): Promise<ProductDetailResponse> {
-  return apiClient.get<ProductDetailResponse>(`/api/products/${productId}`)
+export function getProductById(
+  productId: number,
+  username?: string
+): Promise<ProductDetailResponse> {
+  const query = new URLSearchParams()
+
+  if (username) {
+    query.set("username", username)
+  }
+
+  const queryString = query.toString()
+
+  return apiClient.get<ProductDetailResponse>(
+    `/api/products/${productId}${queryString ? `?${queryString}` : ""}`
+  )
 }
 
 export function getProductReviews(
@@ -31,5 +47,24 @@ export function createProductReview(
   return apiClient.post<CreateProductReviewResponse>(
     `/api/products/${productId}/reviews`,
     input
+  )
+}
+
+export function addUserFavorite(
+  userId: string,
+  input: AddUserFavoriteInput
+): Promise<AddUserFavoriteResponse> {
+  return apiClient.post<AddUserFavoriteResponse>(
+    `/api/users/${encodeURIComponent(userId)}/favorites`,
+    input
+  )
+}
+
+export function deleteUserFavorite(
+  userId: string,
+  productId: number
+): Promise<DeleteUserFavoriteResponse> {
+  return apiClient.delete<DeleteUserFavoriteResponse>(
+    `/api/users/${encodeURIComponent(userId)}/favorites/${productId}`
   )
 }

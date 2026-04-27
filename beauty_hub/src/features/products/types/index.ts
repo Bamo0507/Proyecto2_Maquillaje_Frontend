@@ -72,10 +72,18 @@ export interface ProductSkinConcern {
 export interface ProductDetailResponse {
   product: Product
   brand: ProductBrand | null
+  favorite: ProductFavorite
   categories: ProductCategory[]
   ingredients: ProductIngredient[]
   skinTypes: ProductSkinType[]
   skinConcerns: ProductSkinConcern[]
+}
+
+export interface ProductFavorite {
+  isFavorite: boolean
+  addedAt?: string | null
+  notes?: string | null
+  isPurchased?: boolean | null
 }
 
 export interface ProductReview {
@@ -118,5 +126,34 @@ export interface CreateProductReviewResponse {
     comment: string | null
     reviewDate: string | null
     wouldRecommend: boolean
+  }
+}
+
+export interface AddUserFavoriteInput {
+  productId: number
+  notes: string | null
+  isPurchased: boolean
+}
+
+export interface AddUserFavoriteResponse {
+  message: string
+  userId: string
+  product: {
+    productId: number
+    name: string
+  }
+  favorite: {
+    addedAt: string | null
+    notes: string | null
+    isPurchased: boolean
+  }
+}
+
+export interface DeleteUserFavoriteResponse {
+  message: string
+  userId: string
+  product: {
+    productId: number
+    name: string
   }
 }

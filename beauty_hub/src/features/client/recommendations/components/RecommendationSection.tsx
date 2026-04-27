@@ -35,13 +35,13 @@ function RecommendationSectionSkeleton() {
   return (
     <Carousel
       opts={{ align: "start", containScroll: "trimSnaps" }}
-      className="min-w-0 max-w-full overflow-hidden"
+      className="min-w-0 max-w-full overflow-visible py-2"
     >
-      <CarouselContent>
+      <CarouselContent className="overflow-visible py-2">
         {Array.from({ length: 3 }).map((_, index) => (
           <CarouselItem
             key={index}
-            className="min-w-0 basis-full sm:basis-1/2 xl:basis-1/3"
+            className="min-w-0 basis-full px-1 sm:basis-1/2 xl:basis-1/3"
           >
             <Card className="h-full min-w-0">
               <CardHeader>
@@ -104,7 +104,7 @@ export function RecommendationSection<TItem>({
   }, [api, updateControls])
 
   return (
-    <section className="flex min-w-0 max-w-full flex-col gap-4 overflow-hidden">
+    <section className="flex min-w-0 max-w-full flex-col gap-4 overflow-visible">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex min-w-0 gap-3">
           <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
@@ -166,13 +166,13 @@ export function RecommendationSection<TItem>({
         <Carousel
           opts={{ align: "start", containScroll: "trimSnaps" }}
           setApi={setApi}
-          className="min-w-0 max-w-full overflow-hidden"
+          className="min-w-0 max-w-full overflow-visible py-2"
         >
-          <CarouselContent>
+          <CarouselContent className="overflow-visible py-2">
             {items.map((item, index) => (
               <CarouselItem
                 key={index}
-                className="min-w-0 basis-full sm:basis-1/2 xl:basis-1/3"
+                className="min-w-0 basis-full px-1 sm:basis-1/2 xl:basis-1/3"
               >
                 {renderItem(item)}
               </CarouselItem>

@@ -11,6 +11,7 @@ import {
   deleteReviewComment,
   deleteReviewCommentsBulk,
   getUserReviews,
+  updateReviewRatingBulk,
 } from "../reviews-api"
 
 export function useUserReviews() {
@@ -82,6 +83,23 @@ export function useUserReviews() {
     },
   })
 
+  const updateRatingBulkMutation = useMutation({
+    mutationFn: ({
+      productIds,
+      rating,
+    }: {
+      productIds: number[]
+      rating: number
+    }) => updateReviewRatingBulk(username, productIds, rating),
+    onSuccess: (data) => {
+      toast.success(data.message || "Ratings actualizados correctamente")
+      void queryClient.invalidateQueries({ queryKey: reviewsQueryKey })
+    },
+    onError: (error) => {
+      toast.error(error.message || "No se pudieron actualizar los ratings")
+    },
+  })
+
   return {
     username,
     reviewsQuery,
@@ -90,11 +108,13 @@ export function useUserReviews() {
     addCommentBulk: addCommentBulkMutation.mutate,
     deleteComment: deleteCommentMutation.mutate,
     deleteCommentsBulk: deleteCommentsBulkMutation.mutate,
+    updateRatingBulk: updateRatingBulkMutation.mutate,
     commentingProductId: addCommentMutation.variables?.productId ?? null,
     deletingProductId: deleteCommentMutation.variables ?? null,
     isAddingComment: addCommentMutation.isPending,
     isAddingCommentBulk: addCommentBulkMutation.isPending,
     isDeletingComment: deleteCommentMutation.isPending,
     isDeletingCommentsBulk: deleteCommentsBulkMutation.isPending,
+    isUpdatingRatingBulk: updateRatingBulkMutation.isPending,
   }
 }

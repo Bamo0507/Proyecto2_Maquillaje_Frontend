@@ -54,13 +54,7 @@ export function BudgetDialog({
         {
           username: usernames[0],
           input: {
-            email: null,
-            password: null,
-            age: null,
-            country: null,
-            preferences: null,
             monthlyBudget: parsedBudget,
-            isPremium: null,
           },
         },
         {

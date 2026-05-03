@@ -49,3 +49,17 @@ export interface DeleteReviewCommentsBulkResponse {
     productName: string
   }>
 }
+
+export interface UpdateReviewRatingBulkResponse {
+  message: string
+  username: string
+  requested: number
+  updated: number
+  reviews: Array<{
+    rating: number
+    product: {
+      productId: number
+      name: string
+    }
+  }>
+}

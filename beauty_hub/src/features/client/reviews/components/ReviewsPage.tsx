@@ -27,6 +27,14 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
@@ -63,12 +71,14 @@ export function ReviewsPage() {
     addCommentBulk,
     deleteComment,
     deleteCommentsBulk,
+    updateRatingBulk,
     commentingProductId,
     deletingProductId,
     isAddingComment,
     isAddingCommentBulk,
     isDeletingComment,
     isDeletingCommentsBulk,
+    isUpdatingRatingBulk,
   } = useUserReviews()
   const [selectionMode, setSelectionMode] = useState(false)
   const [selectedProductIds, setSelectedProductIds] = useState<number[]>([])
@@ -79,6 +89,7 @@ export function ReviewsPage() {
   const [commentMode, setCommentMode] = useState<"single" | "bulk">("single")
   const [deleteMode, setDeleteMode] = useState<"single" | "bulk">("single")
   const [showOnlyWithoutComments, setShowOnlyWithoutComments] = useState(false)
+  const [bulkRating, setBulkRating] = useState("")
 
   const selectedCount = selectedProductIds.length
   const visibleReviews = showOnlyWithoutComments
@@ -90,6 +101,7 @@ export function ReviewsPage() {
   const clearSelection = () => {
     setSelectionMode(false)
     setSelectedProductIds([])
+    setBulkRating("")
   }
 
   const closeCommentDialog = () => {
@@ -200,6 +212,26 @@ export function ReviewsPage() {
     })
   }
 
+  const handleBulkRatingUpdate = () => {
+    const parsedRating = Number(bulkRating)
+
+    if (!Number.isFinite(parsedRating) || selectedProductIds.length === 0) {
+      return
+    }
+
+    updateRatingBulk(
+      {
+        productIds: selectedProductIds,
+        rating: parsedRating,
+      },
+      {
+        onSuccess: () => {
+          clearSelection()
+        },
+      }
+    )
+  }
+
   if (!username) {
     return (
       <div className="flex min-w-0 max-w-full flex-col gap-6 overflow-hidden px-2 py-2 md:px-4 xl:px-8">
@@ -236,6 +268,31 @@ export function ReviewsPage() {
               <Button variant="outline" onClick={clearSelection}>
                 Cancelar
               </Button>
+              <div className="flex min-w-0 items-center gap-2">
+                <Select value={bulkRating} onValueChange={setBulkRating}>
+                  <SelectTrigger className="h-10 w-[132px]">
+                    <SelectValue placeholder="Rating" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {["1", "2", "3", "4", "5"].map((rating) => (
+                        <SelectItem key={rating} value={rating}>
+                          {rating} estrellas
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <Button
+                  variant="outline"
+                  onClick={handleBulkRatingUpdate}
+                  disabled={
+                    selectedCount === 0 || !bulkRating || isUpdatingRatingBulk
+                  }
+                >
+                  {isUpdatingRatingBulk ? "Actualizando" : "Actualizar rating"}
+                </Button>
+              </div>
               <Button
                 variant="outline"
                 onClick={openBulkCommentDialog}

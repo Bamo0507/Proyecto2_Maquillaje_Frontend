@@ -5,6 +5,7 @@ import type {
   AddReviewCommentResponse,
   DeleteReviewCommentResponse,
   DeleteReviewCommentsBulkResponse,
+  UpdateReviewRatingBulkResponse,
   UserReviewsResponse,
 } from "./types"
 
@@ -51,5 +52,16 @@ export function deleteReviewCommentsBulk(username: string, productIds: number[])
         "Content-Type": "application/json",
       },
     }
+  )
+}
+
+export function updateReviewRatingBulk(
+  username: string,
+  productIds: number[],
+  rating: number
+) {
+  return apiClient.patch<UpdateReviewRatingBulkResponse>(
+    `/api/user/reviews/${encodeURIComponent(username)}/rating/bulk`,
+    { productIds, rating }
   )
 }

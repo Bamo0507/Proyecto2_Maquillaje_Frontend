@@ -31,13 +31,13 @@ export interface CreateUserInput {
 }
 
 export interface UpdateUserInput {
-  email: string | null
-  password: string | null
-  age: number | null
-  country: string | null
-  preferences: string[] | null
-  monthlyBudget: number | null
-  isPremium: boolean | null
+  email?: string | null
+  password?: string | null
+  age?: number | null
+  country?: string | null
+  preferences?: string[] | null
+  monthlyBudget?: number | null
+  isPremium?: boolean
 }
 
 export interface UserMutationResponse {

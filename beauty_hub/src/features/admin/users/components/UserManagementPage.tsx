@@ -88,6 +88,7 @@ export function UserManagementPage() {
     [usersQuery.data?.users]
   )
   const normalUsers = users.filter((user) => user.role !== "admin")
+
   const filteredUsers = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase()
 
@@ -119,17 +120,8 @@ export function UserManagementPage() {
   }
 
   const openConfirm = (action: ConfirmActionKind, usernames: string[]) => {
-    const allowedUsernames = usernames.filter((username) =>
-      normalUsers.some((user) => user.username === username)
-    )
-
-    if (allowedUsernames.length === 0) {
-      toast.error("Selecciona al menos un usuario normal")
-      return
-    }
-
     setConfirmAction(action)
-    setConfirmUsernames(allowedUsernames)
+    setConfirmUsernames(usernames)
     setConfirmOpen(true)
   }
 
